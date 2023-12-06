@@ -1,4 +1,4 @@
-# Simple Diffusion Model
+# Simple Image Caption Model
 
-Simple implementation of a denoising diffusion model for image generation in
-PyTorch. Includes the DDIM scheduler and UNet with Visual Attention.
+Simple implementation of a model for image caption in PyTorch. Includes the ViT
+encoder and Transformer Decoder.
