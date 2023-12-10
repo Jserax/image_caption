@@ -12,7 +12,7 @@ class CaptionDataset(Dataset):
         self,
         annotations_file: str,
         img_dir: str,
-        max_len: int = 128,
+        max_len: int = 64,
         transform=None,
     ) -> None:
         super().__init__()
@@ -23,11 +23,14 @@ class CaptionDataset(Dataset):
         tokenizer = AutoTokenizer.from_pretrained(
             "huawei-noah/TinyBERT_General_4L_312D"
         )
+        tokenizer = tokenizer.train_new_from_iterator(
+            data.comment.tolist(), vocab_size=16384
+        )
         self.tokens = tokenizer.batch_encode_plus(
             data.comment.tolist(),
             padding=True,
             truncation=True,
-            max_length=max_len,
+            max_length=max_len + 1,
             add_special_tokens=True,
             return_tensors="pt",
         )["input_ids"]

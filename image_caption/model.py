@@ -168,16 +168,16 @@ class CaptionModel(nn.Module):
         img_size: int = 128,
         patch_size: int = 8,
         max_len: int = 128,
-        vocab_size: int = 30522,
+        vocab_size: int = 16384,
         enc_layers: int = 4,
         enc_heads: int = 8,
         enc_dim: int = 256,
-        enc_ff_dim: int = 256,
-        dec_layers: int = 4,
+        enc_ff_dim: int = 512,
+        dec_layers: int = 6,
         dec_heads: int = 8,
         dec_dim: int = 256,
-        dec_ff_dim: int = 256,
-        dropout: float = 0.3,
+        dec_ff_dim: int = 512,
+        dropout: float = 0.1,
     ) -> None:
         super().__init__()
         self.encoder = Encoder(
@@ -210,7 +210,7 @@ class CaptionModel(nn.Module):
     def generate(
         self, img: torch.FloatTensor, max_len: int, temp: float = 1.0
     ) -> torch.LongTensor:
-        idx = torch.tensor([101])  # cls token for BOS
+        idx = torch.tensor([101], device=self.device)  # cls token for BOS
         for _ in range(max_len):
             logits = self(img, idx)
             logits = logits[:, -1, :] / temp

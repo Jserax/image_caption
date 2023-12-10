@@ -25,13 +25,13 @@ transform = transforms.Compose(
     ]
 )
 ds = CaptionDataset(
-    "/kaggle/input/flickr-image-dataset/flickr30k_images/result.csv",
+    "/kaggle/input/flickr-image-dataset/flickr30k_images/results.csv",
     "/kaggle/input/flickr-image-dataset/flickr30k_images/flickr30k_images",
     transform=transform,
 )
-train_loader = DataLoader(ds, batch_size, shuffle=True, workers=workers)
+train_loader = DataLoader(ds, batch_size, shuffle=True, num_workers=workers)
 epoch_iters = len(train_loader)
-warmup_iters = 3 * epoch_iters
+warmup_iters = 2 * epoch_iters
 decay_iters = (epochs - 1) * epoch_iters
 
 model = CaptionModel()
